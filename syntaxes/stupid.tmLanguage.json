@@ -1,0 +1,369 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Stupid",
+	"patterns": [
+		{
+			"include": "#statements"
+		},
+		{
+			"include": "#single-line-comment-consuming-line-ending"
+		}
+	],
+	"repository": {
+		"statements": {
+			"patterns": [
+				{
+					"include": "#proc"
+				},
+				{
+					"include": "#const"
+				},
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#expression"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.stupid",
+					"match": "\\b(if|while|for|return)\\b"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.stupid",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.stupid",
+					"match": "\\\\."
+				}
+			]
+		},
+		"const": {
+			"name": "meta.const.stupid",
+			"begin": "(const) ([_$[:alpha:]][_$[:alnum:]]*)\\s*(?:(:)\\s*([_$[:alpha:]][_$[:alnum:]]*))?",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.const.stupid"
+				},
+				"2": {
+					"name": "support.constant.stupid"
+				},
+				"3": {
+					"name": "punctuation.type.stupid"
+				},
+				"4": {
+					"name": "entity.name.type.stupid"
+				}
+			},
+			"end": ";",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.terminator.statement.stupid"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#expression"
+				},
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#single-line-comment-consuming-line-ending"
+				}
+			]
+		},
+		"proc": {
+			"name": "meta.function.stupid",
+			"begin": "(proc) ([_$[:alpha:]][_$[:alnum:]]*)",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.function.stupid"
+				},
+				"2": {
+					"name": "entity.name.function.stupid"
+				}
+			},
+			"end": "(?=$)",
+			"patterns": [
+				{
+					"include": "#argument-definition"
+				},
+				{
+					"include": "#return-type"
+				},
+				{
+					"include": "#expression"
+				},
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#single-line-comment-consuming-line-ending"
+				}
+			]
+		},
+		"argument-definition": {
+			"name": "meta.function.arguments.stupid",
+			"begin": "\\(",
+			"end": "\\)",
+			"patterns": [
+				{
+					"match": "([_$[:alpha:]][_$[:alnum:]]*)\\s*(:)\\s*([_$[:alpha:]][_$[:alnum:]]*)\\s*((?=\\))|,)",
+					"captures": {
+						"1": {
+							"name": "variable.parameter.stupid"
+						},
+						"2": {
+							"name": "punctuation.type.stupid"
+						},
+						"3": {
+							"name": "entity.name.type.stupid"
+						},
+						"4": {
+							"name": "punctuation.separator.comma.stupid"
+						}
+					}
+				},
+				{
+					"begin": "([_$[:alpha:]][_$[:alnum:]]*)\\s*(?:(:)\\s*([_$[:alpha:]][_$[:alnum:]]*))?\\s*(:=)",
+					"beginCaptures": {
+						"1": {
+							"name": "variable.parameter.stupid"
+						},
+						"2": {
+							"name": "punctuation.type.stupid"
+						},
+						"3": {
+							"name": "entity.name.type.stupid"
+						},
+						"4": {
+							"name": "keyword.operator.default.stupid"
+						}
+					},
+					"end": "(?=\\))|,",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.separator.comma.stupid"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#expression"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#single-line-comment-consuming-line-ending"
+						}
+					]
+				}
+			]
+		},
+		"return-type": {
+			"match": "(->)\\s*([_$[:alpha:]][_$[:alnum:]]*)",
+			"captures": {
+				"1": {
+					"name": "meta.return.type.arrow.stupid keyword.operator.type.annotation.stupid"
+				},
+				"2": {
+					"name": "entity.name.type.stupid"
+				}
+			}
+		},
+		"expression": {
+			"patterns": [
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#single-line-comment-consuming-line-ending"
+				},
+				{
+					"include": "#punctuation-comma"
+				},
+				{
+					"include": "#numeric-literal"
+				},
+				{
+					"include": "#boolean-literal"
+				},
+				{
+					"name": "meta.expression.block.stupid",
+					"begin": "\\{",
+					"end": "\\}",
+					"patterns": [
+						{
+							"include": "#expression"
+						},
+						{
+							"include": "#punctuation-semicolon"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#single-line-comment-consuming-line-ending"
+						}
+					]
+				},
+				{
+					"name": "keyword.operator.stupid",
+					"match": "\\+|\\*|\\||\\|\\||&|&&|=|%|-|\\/"
+				},
+				{
+					"match": "(let)\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*(?:(:)\\s*([_$[:alpha:]][_$[:alnum:]]*))?",
+					"captures": {
+						"1": {
+							"name": "storage.type.stupid"
+						},
+						"2": {
+							"name": "variable.other.stupid"
+						},
+						"3": {
+							"name": "punctuation.type.stupid"
+						},
+						"4": {
+							"name": "entity.name.type.stupid"
+						}
+					}
+				},
+				{
+					"name": "entity.name.function.stupid",
+					"match": "[_$[:alpha:]][_$[:alnum:]]*\\s*(?=\\()"
+				},
+				{
+					"name": "variable.other.stupid",
+					"match": "[_$[:alpha:]][_$[:alnum:]]*"
+				}
+			]
+		},
+		"punctuation-comma": {
+			"name": "punctuation.separator.comma.stupid",
+			"match": ","
+		},
+		"punctuation-semicolon": {
+			"name": "punctuation.terminator.statement.stupid",
+			"match": ";"
+		},
+		"comment": {
+			"patterns": [
+				{
+					"name": "comment.block.stupid",
+					"begin": "/\\*",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.stupid"
+						}
+					},
+					"end": "\\*/",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.stupid"
+						}
+					}
+				}
+			]
+		},
+		"single-line-comment-consuming-line-ending": {
+			"begin": "(^[ \\t]+)?(//)",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.whitespace.comment.leading.stupid"
+				},
+				"2": {
+					"name": "comment.line.double-slash.stupid"
+				}
+			},
+			"end": "(?=^)",
+			"contentName": "comment.line.double-slash.stupid"
+		},
+		"numeric-literal": {
+			"patterns": [
+				{
+					"name": "constant.numeric.hex.stupid",
+					"match": "\\b(?<!\\$)0(?:x|X)[0-9a-fA-F][0-9a-fA-F_]*(l)?\\b(?!\\$)"
+				},
+				{
+					"name": "constant.numeric.binary.stupid",
+					"match": "\\b(?<!\\$)0(?:b|B)[01][01_]*(l)?\\b(?!\\$)"
+				},
+				{
+					"name": "constant.numeric.octal.stupid",
+					"match": "\\b(?<!\\$)0(?:o|O)?[0-7][0-7_]*(l)?\\b(?!\\$)"
+				},
+				{
+					"match": "(?x)\n(?<!\\$)(?:\n  (?:\\b[0-9][0-9_]*(\\.)[0-9][0-9_]*[eE][+-]?[0-9][0-9_]*(f|F|d|D)?\\b)| # 1.1E+3\n  (?:\\b[0-9][0-9_]*(\\.)[eE][+-]?[0-9][0-9_]*(f|F|d|D)?\\b)|             # 1.E+3\n  (?:\\B(\\.)[0-9][0-9_]*[eE][+-]?[0-9][0-9_]*(f|F|d|D)?\\b)|             # .1E+3\n  (?:\\b[0-9][0-9_]*[eE][+-]?[0-9][0-9_]*(f|F|d|D)?\\b)|                 # 1E+3\n  (?:\\b[0-9][0-9_]*(\\.)[0-9][0-9_]*(f|F|d|D)?\\b)|                      # 1.1\n  (?:\\b[0-9][0-9_]*(\\.)(f|F|d|D)?\\B)|                                  # 1.\n  (?:\\B(\\.)[0-9][0-9_]*(f|F|d|D)?\\b)|                                  # .1\n  (?:\\b[0-9][0-9_]*(f|F|d|D|l|L)?\\b(?!\\.))                                 # 1\n)(?!\\$)",
+					"captures": {
+						"0": {
+							"name": "constant.numeric.decimal.stupid"
+						},
+						"1": {
+							"name": "meta.delimiter.decimal.period.stupid"
+						},
+						"2": {
+							"name": "storage.type.numeric.explicit.stupid"
+						},
+						"3": {
+							"name": "meta.delimiter.decimal.period.stupid"
+						},
+						"4": {
+							"name": "storage.type.numeric.explicit.stupid"
+						},
+						"5": {
+							"name": "meta.delimiter.decimal.period.stupid"
+						},
+						"6": {
+							"name": "storage.type.numeric.explicit.stupid"
+						},
+						"7": {
+							"name": "storage.type.numeric.explicit.stupid"
+						},
+						"8": {
+							"name": "meta.delimiter.decimal.period.stupid"
+						},
+						"9": {
+							"name": "storage.type.numeric.explicit.stupid"
+						},
+						"10": {
+							"name": "meta.delimiter.decimal.period.stupid"
+						},
+						"11": {
+							"name": "storage.type.numeric.explicit.stupid"
+						},
+						"12": {
+							"name": "meta.delimiter.decimal.period.stupid"
+						},
+						"13": {
+							"name": "storage.type.numeric.explicit.stupid"
+						},
+						"14": {
+							"name": "storage.type.numeric.explicit.stupid"
+						}
+					}
+				}
+			]
+		},
+		"boolean-literal": {
+			"patterns": [
+				{
+					"name": "constant.language.boolean.true.stupid",
+					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))true(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.))"
+				},
+				{
+					"name": "constant.language.boolean.false.stupid",
+					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))false(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.))"
+				}
+			]
+		}
+	},
+	"scopeName": "source.stupid"
+}
