@@ -1,27 +1,43 @@
 {
-    "name": "stupid-code",
-    "displayName": "stupid-code",
-    "description": "Language Support for Stupid",
-    "publisher": "MixusMinimax",
-    "version": "0.0.1",
-    "engines": {
-        "vscode": "^1.65.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "contributes": {
-        "languages": [{
-            "id": "stupid",
-            "aliases": ["Stupid", "stupid"],
-            "extensions": [".stupid",".st"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "stupid",
-            "scopeName": "source.stupid",
-            "path": "./syntaxes/stupid.tmLanguage.json"
-        }]
-    },
-    "repository": "MixusMinimax/stupid-code"
+	"name": "stupid-code",
+	"displayName": "stupid-code",
+	"description": "Language Support for Stupid",
+	"publisher": "MixusMinimax",
+	"version": "0.0.2",
+	"engines": {
+		"vscode": "^1.65.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "stupid",
+				"aliases": [
+					"Stupid",
+					"stupid"
+				],
+				"extensions": [
+					".stupid",
+					".st"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "stupid",
+				"scopeName": "source.stupid",
+				"path": "./syntaxes/stupid.tmLanguage.json"
+			}
+		]
+	},
+	"repository": "MixusMinimax/stupid-code",
+	"__metadata": {
+		"id": "a66ac8de-4c9e-454f-ab5f-d3d1891dfcfd",
+		"publisherDisplayName": "MixusMinimax",
+		"publisherId": "978468f2-71c0-439a-92f8-0f02d0565331",
+		"isPreReleaseVersion": false
+	}
 }
