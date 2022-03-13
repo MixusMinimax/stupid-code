@@ -21,3 +21,7 @@ proc bar(a: int, b := 10) {
     };
     x * b
 }
+
+proc min(a: int, b: int) -> int {
+    if a < b a else b
+}

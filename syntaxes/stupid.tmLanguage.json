@@ -217,7 +217,7 @@
 				},
 				{
 					"name": "keyword.operator.stupid",
-					"match": "\\+|\\*|\\||\\|\\||&|&&|=|%|-|\\/"
+					"match": "\\+|\\*|\\||\\|\\||&|&&|=|%|-|\\/|<|>|==|!=|<=|>="
 				},
 				{
 					"match": "(let)\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*(?:(:)\\s*([_$[:alpha:]][_$[:alnum:]]*))?",
@@ -235,6 +235,10 @@
 							"name": "entity.name.type.stupid"
 						}
 					}
+				},
+				{
+					"name": "keyword.control.conditional.stupid",
+					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(if|else)(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.))"
 				},
 				{
 					"name": "entity.name.function.stupid",
